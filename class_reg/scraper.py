@@ -19,7 +19,6 @@ def navigate_to_search(driver: Chrome) -> None:
 
     # Wait for next page to come up then click advanced search
     driver.find_element(By.ID, "advanced-search-link").click()
-    
 
 def input_search_params(driver: Chrome, search_params: dict) -> None:
     """Inputs all valid search params"""
@@ -45,12 +44,25 @@ def input_search_params(driver: Chrome, search_params: dict) -> None:
 def scrape_classes(driver: Chrome) -> list[dict]:
     """Iterate through each row to scrape capacity"""
     table = driver.find_element(By.ID, "table1")
-    # //tbody/tr[i]
-    num_results = driver.find_element(By.CLASS_NAME, "results-out-of").text
     # num_results to be first int in the string
+    num_results = driver.find_element(By.CLASS_NAME, "results-out-of").text
     num_results = int(num_results.split(' ')[0])
-    print(num_results)
+    results = []
+    for i in range(1, min(num_results, 10) + 1):
+        # relative x-path //tbody/tr[i]
+        row = table.find_element(By.XPATH, f"//tbody/tr[{i}]")
+        result = {}
+        result["course_name"] = row.find_element(By.XPATH, "//td[@data-property='courseTitle']").text
 
+        status = row.find_element(By.XPATH,  "//td[@data-property='status']").text
+        # Parse status text such that first number is seats remaining, and second number is total seats
+        status = list(filter(lambda x: x.isdigit(), status.split(' ')))
+        result["seats_left"] = status[0]
+        result["total_seats"] = status[1]
+
+        results.append(result)
+
+    return results
 
 def check_classes(search_params: dict) -> list[dict]:
     '''Performs a search with the inputted params
@@ -59,8 +71,8 @@ def check_classes(search_params: dict) -> list[dict]:
         search_params (dict): A dictionary with field IDs and values
     
     Returns:
-        List of dictionaries with the name, amount of students and the capacity
-        of each of the classes that came out of the search (top 10), or an empty dictionary if nothing
+        List of dictionaries with "course_name", "seats_left", and "total_seats"
+        of each of the classes that came out of the search (max top 10), or an empty list if nothing
     '''
     options = Options()
     # options.headless = True
