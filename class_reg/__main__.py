@@ -1,1 +1,3 @@
-print("hey")
+import scraper
+
+scraper.test()
