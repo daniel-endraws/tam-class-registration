@@ -28,7 +28,8 @@ for class_name in data_dict.keys():
         print(f"ERR: class '{class_name}' has no valid search parameters")
         sys.exit(1)
 
-    
-sys.exit(0)
+# List of the returned dictionaries from the search
+capacities = []
 
-scraper.check_classes({})
+for class_name in data_dict.keys():
+    capacities.extend(scraper.check_classes(data_dict[class_name]))
