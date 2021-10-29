@@ -37,6 +37,8 @@ for class_name in data_dict.keys():
     capacities.extend(scraper.check_classes(data_dict[class_name]))
 
 for class_dict in capacities:
+    print()
     print(class_dict['course_name'])
     room = class_dict['seats_left']
-    print(f"{'CLASS FULL: ' if not int(room) else ''}{room} out of {class_dict['total_seats']} total seats")
+    print(f"{'CLASS FULL: ' if not int(room) else ''}{room} out of {class_dict['total_seats']} total seats available")
+    print()
