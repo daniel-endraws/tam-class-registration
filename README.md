@@ -29,7 +29,6 @@ Coming soon
 Name | Documentation | Instillation
 -----|---------------|-------------
 selenium | [Selenium Site](https://selenium-python.readthedocs.io/) | `pip install selenium`
-pandas | [Official Docs](https://pandas.pydata.org/docs/), [One tutorial](https://www.tutorialspoint.com/python_pandas/index.htm) | `pip install pandas`
 
 
 Grab your selenium driver [here](https://selenium-python.readthedocs.io/installation.html#drivers), code uses chrome driver at `/bin/chromedriver.exe`
