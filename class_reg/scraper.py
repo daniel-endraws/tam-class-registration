@@ -21,7 +21,7 @@ def set_cookies(driver: Chrome) -> None:
 
 
 
-def test() -> None:
+def check_classes(search_params: dict) -> None:
     options = Options()
     # options.headless = True
 

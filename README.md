@@ -1,5 +1,18 @@
 # tam-class-registration
 A python app to ...
+Call with path to json file with parameters to search for class by (currently limited to the below)
+### JSON Format
+```js
+{
+    "class1name": {
+        "txt_courseNumber": 'course number',
+        "s2id_txt_instructor": 'instructor last name'
+    },
+    "class2name": {
+        ...
+    }
+}
+```
 ## Scrape Info
 *Need to use selenium since site uses JS*
 
