@@ -3,6 +3,7 @@ import pathlib
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
 # waits
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -54,6 +55,18 @@ def input_search_params(driver: Chrome, search_params: dict) -> None:
             print(f"ERR on {input_id}\n{err}\n")
             continue
 
+def scrape_classes(driver: Chrome) -> list[dict]:
+    """Iterate through each row to scrape capacity"""
+    # Wait until results are ready
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "table1")))
+    table = driver.find_element(By.ID, "table1")
+    # //tbody/tr[i]
+    num_results = driver.find_element(By.CLASS_NAME, "results-out-of").text
+    # num_results to be first int in the string
+    num_results = int(num_results.split(' ')[0])
+    print(num_results)
+
+
 def check_classes(search_params: dict) -> list[dict]:
     '''Performs a search with the inputted params
 
@@ -62,7 +75,7 @@ def check_classes(search_params: dict) -> list[dict]:
     
     Returns:
         List of dictionaries with the name, amount of students and the capacity
-        of each of the classes that came out of the search, or an empty dictionary if nothing
+        of each of the classes that came out of the search (top 10), or an empty dictionary if nothing
     '''
     options = Options()
     # options.headless = True
@@ -74,7 +87,12 @@ def check_classes(search_params: dict) -> list[dict]:
     
     navigate_to_search(driver)
     input_search_params(driver, search_params)
-    # Click search button
-    driver.find_element(By.ID, "search-go").click()
+    # Move to button (https://www.py4u.net/discuss/19767)
+    button = driver.find_element(By.ID, "search-go")
+    driver.implicitly_wait(10)
+    ActionChains(driver).move_to_element(button).click(button).perform()
+
+    search_vals = scrape_classes(driver)   
 
     driver.close()
+    return search_vals

@@ -4,6 +4,8 @@ import sys
 
 possible_params = set(("txt_courseNumber", "s2id_txt_instructor"))
 
+# TODO: Let user input max number from each search
+
 if len(sys.argv) != 2:
     print("ERR: wrong number of arguments \nUsage: python3 class_reg <path_to_json>")
     sys.exit(1)
