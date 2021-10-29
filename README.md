@@ -19,7 +19,7 @@ Call with path to json file with parameters to search for class by (currently li
 Grab number of students enrolled and class capacity given info and output the info
 
 Optionally:
-- Message user if there is space in the class
+- Message user if there is space in the class (or wait-list)
 - Auto Enroll in the class
 
 ## Auto Enroll
